@@ -1,0 +1,26 @@
+1) Simple Passport ( Done )
+2) Sales
+2.1) List of Sales, List of Items Sold per sale
+2.2) Add Sale
+3) Inventory
+3.1) Add Stock
+3.2) Subtract Stock
+4) Purchases
+4.1) Add Purchase
+4.2) List of Purchases
+0) Product
+0.1) Add Product
+0.2) List Products
+
+5) Multi User Role Authentication (Saturday - 26/6/2021) Done
+6) Multiple Store Management - 50% () (Friday - 2/7/2021) Done
+7) Multiple Store Management - 50% (Saturday - 10/7/2021) - on going
+8) Inventory Location Transfer (Saturday - 17/7/2021) - pending
+9) POS Screen Remaining Work (Saturday - 24/7/2021) - pending
+
+Multiple Storesale in single Dashboard
+Employee Management
+take a photo option 
+
+****
+Location Name Shoukd be on Dashboard

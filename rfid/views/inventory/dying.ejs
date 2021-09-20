@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include ("../partials/commonhead") %>
+</head>
+
+<body class="sb-nav-fixed">
+<%- include ("../partials/header") %>
+	<div id="layoutSidenav">
+	<%- include ("../partials/sidebar") %>
+		<div id="layoutSidenav_content">
+
+			<main>
+				<div class="container-fluid">
+					<h1 class="mt-4">Inventory Dying</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">
+							<div class="ml-auto"><a href="/">Home</a> > Inventory Dying</div>
+						</li>
+					</ol>
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-barcode mr-1"></i>
+							Add Product detail
+						</div>
+						<div class="card-body">
+							<label for="name">Product RFID #:</label>
+							<input type="text" class="form-control" id="rfid" name="rfid" aria-describedby="name"	placeholder="Enter Product RFID #" required>
+							<form id="form">
+								<br>
+								<button type="button" onclick="addInventory()" class="btn btn-success">Process All Entries</button>
+							</form>
+							<br>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>RFID</th>
+										<th><i class="fa fa-trash"></i></th>
+									</tr>
+								</thead>
+								<tbody id="product-table">
+									<tr id="produt-form"></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<table class="table table-bordered">
+
+					</table>
+				</main>
+			</div>
+	</div>
+	<script>
+		let listDataArray = [];
+		let products = <%- JSON.stringify(products) %>;
+
+		document.getElementById('rfid').addEventListener('keyup', function (event) {
+			event.preventDefault();
+			if(event.keyCode === 13) {
+				let rfidEntered = document.getElementById('rfid').value;
+				let productName = products.find(x => x.name == rfidEntered).categoryId.name;
+
+				let EntryInTable = {
+					rfid: rfidEntered,
+				}
+				listDataArray.push(EntryInTable);
+
+				//-------create table row dynamically---------------
+				let tablerow = document.createElement('tr');
+				tablerow.setAttribute('id', 'rowId-'+(listDataArray.length-1));
+				let td1 = document.createElement('td');
+				td1.innerHTML = productName;
+				let td2 = document.createElement('td');
+				td2.innerHTML = rfidEntered;
+				let td3 = document.createElement('td');
+				td3.innerHTML = "<button type='button' class='btn btn-danger' id='delete-btn'  name='delete-btn' onClick='deleteData(this);' deleted-id='"+(listDataArray.length-1)+"'><i class='fa fa-trash'></i></button>";
+
+				tablerow.append(td1, td2, td3);
+		
+				document.getElementById('product-table').insertBefore(tablerow, document.getElementById('product-form'));
+				// ------------------------------------------------
+
+				document.getElementById('rfid').value = ""; //clearing textbox after entered rfid
+				console.log(listDataArray);
+				
+			}
+		});
+		function deleteData(e){
+			let id = e.getAttribute('deleted-id');
+			if (id > -1) {
+				listDataArray.splice(id, 1);
+			}
+			let tablerow = document.querySelector('#rowId-'+id);
+			tablerow.remove();
+
+		}
+		let addInventory = () => {
+			const obj = {
+				inventoryData: listDataArray,
+				dyingDate: new Date
+			}
+			// console.log(inventoryData);
+			fetch('/inventory/dying/add', {
+				headers:{
+					"Content-Type": "application/json"
+				},
+				method: 'POST',
+				body: JSON.stringify(obj)
+			}).then((res)=>{
+				window.location.assign(res.url)
+			});
+		}
+
+		let form = document.getElementById('form');
+		form.addEventListener('submit', addInventory);
+
+
+	</script>
+	<%- include ("../partials/commonscripts") %>
+</body>   

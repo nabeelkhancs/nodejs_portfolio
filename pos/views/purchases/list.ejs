@@ -1,0 +1,69 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Purchases List</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > All Purchases</div>
+			</li>
+		</ol>
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table mr-1"></i>
+				All Purchases Shown here
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>Supplier</th>
+								<th>Total Amount</th>
+								<th>Date</th>
+								<% if(currentUser.isAdmin) { %>
+									<th>Location</th>
+								<% } %>  
+								<th>Description</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th>Supplier</th>
+								<th>Total Amount</th>
+								<th>Date</th>
+								<% if(currentUser.isAdmin) { %>
+									<th>Location</th>
+								<% } %>  
+								<th>Description</th>
+								<th>Action</th>
+							</tr>
+						</tfoot>
+						<tbody>
+							<% for(let purchase of purchases) { %>
+								<tr>
+									<td><%= purchase.supplierId.name %> </td>
+									<td><%= purchase.totalAmount %> </td>
+									<td><%= purchase.date ? purchase.date.toDateString() : purchase.createdAt.toDateString() %> </td>
+									<% if(currentUser.isAdmin) { %>
+										<td><%= purchase.locationId.name %> </td>
+									<% } %>  
+									<td><%= purchase.description ? purchase.description : "No Description" %> </td>
+									<td>
+										<a href="/purchases/print/<%= purchase._id %>" target="_blank" class="btn btn-secondary"><i class="fa fa-print"></i></a>
+										<a class="btn btn-danger" href="/purchases/delete/<%= purchase._id %>"><i class="fa fa-trash"></i></a>
+
+									</td>
+								</tr>
+							<% } %>  
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<%- include('../partials/footer') %>
+
+		

@@ -1,0 +1,88 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Update <%= permissions.name %>  Role</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Update Role</div>
+			</li>
+		</ol>
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-barcode mr-1"></i>
+				Update Role detail
+			</div>
+			<div class="card-body">
+				<form action="/permissions/update" method="POST">
+					<div class="form-group col-md-6">
+						<label for="name">Role Name:</label>
+						<input type="text" class="form-control" id="name" name="name" aria-describedby="name" placeholder="Enter Role Name" value="<%= permissions.name %> " required>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="description">Role Description:</label>
+						<textarea class="form-control" name="description"><%= permissions.description %> </textarea>
+					</div>
+					<input type="hidden" name="permissions" id="permissions">
+					<input type="hidden" name="id" id="id" value="<%= permissions._id %>">
+					<div class="table-responsive">
+						<table class="table table-bordered" >
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(access_level of access_levels) { %>
+									<!-- <div class="form-check"> -->
+										<tr>
+											<td>
+												<label class="form-check-label" for="<%= access_level.code %> ">
+													<%= access_level.name %> 
+												</label>
+											</td>
+											<td>
+												<input class="" type="checkbox" value="" id="<%= access_level.code %>">
+											</td>
+										</tr>
+									<!-- </div> -->
+								<% } %>  
+							</tbody>
+						</table>
+					</div>
+					<center>
+						<input type="submit" value="Update" class="btn btn-success">
+					</center>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+<script>
+	var updatedlistDataArray = <%- JSON.stringify(permissions.permissions) %>;
+	console.log(updatedlistDataArray);
+	var access_levels = <%- JSON.stringify(access_levels) %>;
+	// console.log(access_levels);
+	for(i=0; i<updatedlistDataArray.length;i++){
+		document.getElementById(updatedlistDataArray[i]).checked = true; 
+	}
+	for(i = 0; i < access_levels.length; i++){
+		document.getElementById(access_levels[i].code).addEventListener('click', function(e){
+			let code = e.target.getAttribute('id');
+			if(updatedlistDataArray.includes(code)){
+				let index = updatedlistDataArray.indexOf(code);
+				updatedlistDataArray.splice(index,1);
+			}
+			else{
+				updatedlistDataArray.push(code);
+			}
+
+			document.getElementById('permissions').value = updatedlistDataArray;
+			console.log(updatedlistDataArray);
+
+		});
+	}
+</script>
+
+<%- include('../partials/footer') %>

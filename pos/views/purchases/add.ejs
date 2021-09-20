@@ -1,0 +1,170 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Add Purchase</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Add Purchase</div>
+			</li>
+		</ol>
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-barcode mr-1"></i>
+				Add Purchase detail
+			</div>
+			<form  id='form'>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-3">
+							<label for="name">Supplier Name:</label>
+							<%- dropdown(suppliers,'supplierId','Select Supplier','required') %>
+						</div>
+						<div class="col-md-3">
+							<label for="location">Location: </label>
+							<%- dropdown(locations,'locationId','Select Location','required') %>
+						</div>
+						<div class="col-md-3">
+							<label>Select Date: </label>
+							<div class="input-group date" data-date-format="mm-dd-yyyy">
+									<input id="datepicker" name="date" class="form-control" type="text" readonly />
+									<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<label for="reference">Reference:</label>
+								<input type="text" class="form-control" id="reference" name="reference" aria-describedby="reference" placeholder="Enter Reference" >
+						</div>
+
+					</div>
+					<hr>
+					<table class="table table-bordered">
+						<thead style="background-color: #e9ecef;">
+							<tr>
+								<th>Barcode</th>
+								<th>Item Name</th>
+								<th>Quantity</th>
+								<th>Price / Unit</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="product-table">
+							<tr id="product-form">
+								<td>
+									<input type="text" class="form-control" id="barcode" name="barcode" aria-describedby="barcode" placeholder="Enter Barcode" required>
+								</td>
+								<td>
+										<%- dropdown(products,'productId','Select Item','required') %>
+								</td>
+								<td>
+									<input type="number" class="form-control" id="quantity" name="quantity" aria-describedby="quantity" placeholder="Enter Product Quantity" required>
+								</td>
+								<td>
+									<input type="number" class="form-control" id="price" name="price" aria-describedby="price" placeholder="Enter Product Name" required>
+								</td>
+								<td>
+									<button type="button" onclick="addData();" class="btn btn-info icon-btn"><i class="fa fa-plus" ></i></button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<hr>
+					<br>
+					<br>
+					<div class="row">
+						<div class="form-group col-md-4"></div>
+						<div class="form-group col-md-4">
+							<label for="description">Description:</label>
+							<textarea name="description" placeholder="Enter Description" class="form-control" rows="5"></textarea>
+						</div>
+					</div>
+					<center><button type="button" onclick="addPurchase()" class="btn btn-outline-success" style="width: 10em;">  Process  </button></center>
+				</div>
+			</form>
+		</div>
+	</div>
+</main>
+<script>
+	let listDataArray = [];
+	let products = <%- JSON.stringify(products) %>;
+
+	function addData(){
+		let product = {
+			barcode : document.getElementById('barcode').value, 
+			productId : document.getElementById('productId').value, 
+			quantity : document.getElementById('quantity').value, 
+			pricePerUnit : document.getElementById('price').value, 
+		}
+		listDataArray.push(product);
+
+		let tablerow = document.createElement('tr');
+		tablerow.setAttribute('id', 'rowId-'+(listDataArray.length-1));
+		let td1 = document.createElement('td');
+		td1.innerHTML = product.barcode;
+		let td2 = document.createElement('td');
+		let productname = products.find(x => x._id == product.productId).name;
+		td2.innerHTML = productname;
+		let td3 = document.createElement('td');
+		td3.innerHTML = product.quantity;
+		let td4 = document.createElement('td');
+		td4.innerHTML = product.pricePerUnit;
+		let td5 = document.createElement('td');
+		td5.innerHTML = "<button type='button' class='btn btn-danger' id='delete-btn'  name='delete-btn' onClick='deleteData(this);' deleted-id='"+(listDataArray.length-1)+"'><i class='fa fa-trash'></i></button>";
+		tablerow.append(td1, td2, td3, td4, td5);
+		
+		document.getElementById('product-table').insertBefore(tablerow, document.getElementById('product-form'));
+	}
+
+	function deleteData(e){
+		let id = e.getAttribute('deleted-id');
+		if (id > -1) {
+			listDataArray.splice(id, 1);
+		}
+		let tablerow = document.querySelector('#rowId-'+id);
+		tablerow.remove();
+
+		// console.table(listDataArray); 
+		
+	}
+	let form = document.getElementById('form');
+	let addPurchase = () => {
+		let form = document.getElementById('form');
+		const obj = {
+			 supplierId : form.supplierId.value,
+			 locationId: form.locationId.value,
+			 date : form.date.value,
+			 reference : form.reference.value,
+			 description : form.description.value,
+			 purchaseData : listDataArray,
+		}
+		fetch('/purchases/add', {
+			headers:{
+				"Content-Type": "application/json"
+			},
+			method: 'POST',
+			body: JSON.stringify(obj),
+		}).then((res)=>{
+			console.log(res)
+			window.location.assign(res.url)
+		});
+		console.log("Data: ",obj);
+	}
+	form.addEventListener('submit', addPurchase);
+	
+	document.getElementById("barcode")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+			let barcodeEntered = document.getElementById('barcode').value;
+			let barcodeRecieved = products.find(x => x.barcode == barcodeEntered).barcode;
+			if(barcodeEntered == barcodeRecieved){
+					let productSelect = document.getElementById('productId');
+					let id = products.find(x => x.barcode == barcodeEntered)._id;
+					productSelect.value = id;
+			}
+    }
+});
+	
+</script>
+
+<%- include('../partials/footer') %>

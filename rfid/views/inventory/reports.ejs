@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include ("../partials/commonhead") %>
+</head>
+
+<body class="sb-nav-fixed">
+<%- include ("../partials/header") %>
+	<div id="layoutSidenav">
+	<%- include ("../partials/sidebar") %>
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid">
+					<h1 class="mt-4">Inventory Reports</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">
+							<div class="ml-auto"><a href="/">Home</a> > Inventory Reports</div>
+						</li>
+					</ol>
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-barcode mr-1"></i>
+							Reports detail
+						</div>
+						<div class="card-body">
+							<form action="/inventory/reports/generate" method="POST">
+								<div class="row">
+									<div class="col-md-4">
+										<label for="status">Status:</label>
+										<select name="status" id="status" class="form-control" required>
+											<option value="">Select Option</option>
+											<option value="recieved">Recieved</option>
+											<option value="washing">Washing</option>
+											<option value="dying">Dying</option>
+											<option value="shipped">Shipped</option>
+										</select>							
+									</div>
+									<div class="dates col-md-4">
+										<label for="fromDate">From:</label>
+										<input type="date" autocomplete="off" id="fromDate" name="fromDate" class="form-control" required />
+									</div>
+									<div class="dates col-md-4">
+										<label for="fromDate">To:</label>
+										<input type="date" autocomplete="off" id="toDate" name="toDate" class="form-control" required />
+									</div>
+								</div>
+								<br>
+								<center><button type="submit" class="btn btn-secondary"><i class="fa fa-print"></i> Generate Report</button></center>
+							</form>
+	
+						</div>
+					</div>
+				</main>
+			</div>
+	</div>
+	<%- include ("../partials/commonscripts") %>
+	<script>
+		// $(function(){
+		// 	$('.dates #date').datepicker({
+		// 		format: 'yyyy/mm/dd',
+		// 		autoclose: 'true'
+		// 	});
+		// });
+	</script>
+</body>
+</html>

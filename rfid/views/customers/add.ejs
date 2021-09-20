@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include ("../partials/commonhead") %>
+</head>
+
+<body class="sb-nav-fixed">
+	<%- include ("../partials/header") %>
+		<div id="layoutSidenav">
+			<%- include ("../partials/sidebar") %>
+				<div id="layoutSidenav_content">
+					<main>
+						<div class="container-fluid">
+							<h1 class="mt-4">Add Customer</h1>
+							<ol class="breadcrumb mb-4">
+								<li class="breadcrumb-item active">
+									<div class="ml-auto"><a href="/">Home</a> > Add Customer</div>
+								</li>
+							</ol>
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-barcode mr-1"></i>
+									Add Customer detail
+								</div>
+								<div class="card-body">
+									<form action="/customers/add" method="POST">
+										<div class="row">
+											<div class="form-group col-md-6">
+												<label for="name">Name:</label>
+												<input type="text" class="form-control" id="name" name="name" aria-describedby="name"
+													placeholder="Enter Customer Name" required>
+											</div>
+											<div class="form-group col-md-6">
+												<label for="idNumber">ID #:</label>
+												<input type="text" class="form-control" id="idNumber" name="idNumber" aria-describedby="idNumber"
+													placeholder="Enter Customer ID #" required>
+											</div>
+											
+										</div>
+										<div class="row">
+											<div class="form-group col-md-6">
+												<label for="phone">Phone #:</label>
+												<input type="text" class="form-control" id="phone" name="phone" aria-describedby="phone"
+													placeholder="Enter Customer Phone #" required>
+											</div>
+											<div class="form-group col-md-6">
+												<label for="address">Address:</label>
+												<textarea name="address" class="form-control"></textarea>
+											</div>	
+										</div>
+										<div class="row">
+											<div class="form-group col-md-12 text-right">
+												<button type="submit" name="add" class="btn btn-outline-success"> &nbsp;&nbsp;&nbsp; Add
+													&nbsp;&nbsp;&nbsp; </button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</main>
+				</div>
+		</div>
+		<%- include ("../partials/commonscripts") %>
+</body>
+
+</html>

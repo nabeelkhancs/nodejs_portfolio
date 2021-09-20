@@ -1,0 +1,87 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Edit <%= location.name %>  Location 
+		</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Edit Location</div>
+			</li>
+		</ol>
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-barcode mr-1"></i>
+				Edit <%= location.name %>  Location 
+			</div>
+			<div class="card-body">
+				<form action="/locations/update" method="post">
+					<input type="hidden" name="id" id="id" value="<%= location._id %>">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="name">Location Name:</label>
+							<input type="text" name="name" id="name" class="form-control" placeholder="Enter Location Name" value="<%= location.name %> " >
+						</div>
+						<div class="form-group col-md-6">
+							<label for="name">Location Type:</label>
+							<% 
+								if(location.locationType == 'physical'){
+									var selectPhysical = "selected";
+									var disabled = "disabled";
+								} else {
+									var selectPhysical ="";
+									var disabled = "";
+
+								}
+								if(location.locationType == 'digital'){
+									var selectDigital = "selected";
+									var disabled = "";
+
+								} else {
+									var disabled = "disabled";
+									var selectDigital ="";
+								}
+							%> 
+							<select name="type" id="type" class="form-control" onchange="enabledfields(this)" required>
+								<option value="">Select Type</option>
+								<option value="physical" <%= selectPhysical %>  >Physical</option>
+								<option value="digital" <%= selectDigital %> >Digital</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="store_link">Store Link:</label>
+							<input type="text" name="store_link" id="store_link" value="<%= typeof(location.store_link) != "undefined" ? location.store_link : "" %>" class="form-control" placeholder="Enter Store URL" <%=disabled %>>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="consumer_key">Consumer Key:</label>
+							<input type="text" name="consumer_key" id="consumer_key" value="<%= typeof(location.consumer_key) != "undefined" ? location.consumer_key : "" %>" class="form-control" placeholder="Enter Consumer Key" <%=disabled %>>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="consumer_secret">Consumer Secret Key</label>
+							<input type="text" name="consumer_secret" id="consumer_secret" value="<%= typeof(location.consumer_secret) != "undefined" ? location.consumer_secret : "" %>" class="form-control" placeholder="Enter Consumer Key" <%=disabled %>>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="address">Address</label>
+							<textarea name="address" id="address" class="form-control"><%= typeof(location.address) != "undefined" ? location.address : "" %> </textarea>
+						</div>
+					</div>
+					<center><button type="submit" class="btn btn-success"> <i class="fas fa-plus"></i> Update Location </button></center>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+<script>
+  function enabledfields(e){
+		if(e.value === "digital"){
+			document.getElementById('store_link').removeAttribute("disabled");
+			document.getElementById('consumer_key').removeAttribute("disabled");
+			document.getElementById('consumer_secret').removeAttribute("disabled");
+		}
+	}
+</script>
+<%- include('../partials/footer') %>

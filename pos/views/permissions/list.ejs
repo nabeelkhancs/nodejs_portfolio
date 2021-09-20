@@ -1,0 +1,69 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Permission Roles</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Permission Roles</div>
+			</li>
+		</ol>
+		<%- include('../partials/messages') %>
+
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table mr-1"></i>
+				All Permissions Roles
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Permissions</th>
+								<th>Action</th>	
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th>Name</th>
+								<th>Description</th>
+								<th>Permissions</th>
+								<th>Action</th>
+							</tr>
+						</tfoot>
+						<tbody>
+							<!-- <pre>
+							<%= //inventories %> 
+						</pre> -->
+							<% for(let permission of permissions) { %>
+								<tr>
+									<td width="20%">
+										<%= permission.name %>
+									</td>
+									<td width="20%">
+										<%= permission.description %>
+									</td>
+									<td width="50%">
+										<%= permission.permissions %>
+									</td>
+									<td width="10%">
+										<a href="/permissions/edit/<%= permission._id %>" class="btn btn-info icon-btn"><i
+												class="fa fa-edit"></i></a>
+										<% if(permission.name != "Admin") { %> 
+										<a href="/permissions/delete/<%= permission._id %>" class="btn btn-danger icon-btn"><i
+												class="fa fa-trash"></i></a>
+										<% } %> 
+									</td>
+								</tr>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<%- include('../partials/footer') %>

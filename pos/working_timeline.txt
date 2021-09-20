@@ -1,0 +1,60 @@
+Installation 
+	* create folder
+	* run command express -e
+	* run command npm i nodemon -D
+	* run command npm i validator
+	* run command npm i mongoose
+	* run command npm i dotenv
+	* run command npm i bcrypt
+	* run command npm i connect-flash
+	* run command npm i express-session
+	* run command npm i express-fileupload
+	* run command npm i uuid
+	* run command npm i
+	* create .env for db configuration
+	*	create folder config
+	* create folder controllers
+	* create folder models
+	* install admin theme
+Helpers
+	* Create views-function helper 
+	* make dropdown function in view-function
+	* Create barcode function for auto generate
+Routes
+	* create products Routes
+	* create purchases Routes
+
+Passport
+	* install packages passport, pssport-jwt(for api) & passport-local(for session)
+	*	create files db.js and passport.js in config folder
+
+Users
+	* Create User model
+	* Create Utiltity for single/Admin user (Auto Generated , when user is not created)
+
+Product
+	* Create Product Model
+	* Create Product Category Model
+	* Create Unit of Measure Model
+	* Create Product Controller (GET Method,)
+	* Create View, all products on ejs
+	* Create View, add product on ejs
+	* Create View, product categories on ejs
+	* MADE CRUD of products 
+	* Create edit.ejs for edit the product details.
+	* Print Barcode for Product ccomplete function.
+	* Sales Pricing for all products 
+
+purchases
+	* Create Purchase Model
+	* Create Purchases controller
+	* Create Supplier CRUD
+	* Design Add Purchase Screen
+	* Add Purchase Complete
+	* List Purchase Complete
+	* Print Purchase Invoice
+	
+Sales
+	* Creat Customers CRUD
+	* Design POS Screen
+	* Create Models of Sales and Customers

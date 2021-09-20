@@ -1,0 +1,82 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Pricing</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Pricing</div>
+			</li>
+		</ol>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-barcode mr-1"></i>
+						Add Pricing detail
+					</div>
+					<form action="/products/pricing" method="POST">
+						<div class="card-body">
+							<%- dropdown(products,'productId','Select Product','required') %>
+							<br>
+							<select class="form-control" name="type" id="type" required>
+								<option value="">Select Type</option>
+								<option value="amount">Amount</option>
+								<option value="percentage">Percentage</option>
+							</select>
+							<br>
+							<!-- <label for="price">Price:</label> -->
+							<input type="number" class="form-control" id="price" name="price" aria-describedby="price" placeholder="Enter Price" required>
+							<br>
+							<button type="submit" class="btn btn-success"> &nbsp;&nbsp;Add&nbsp;&nbsp; </button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-barcode mr-1"></i>
+						Add Pricing detail
+					</div>
+					<div class="card-body">
+						<table class="table table-bordered" id="dataTable">
+							<thead>
+								<tr>
+									<th>Product Name</th>
+									<th>Type</th>
+									<th>Sale Price</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(let pricing of pricings) { %>
+									<tr>
+										<td><%= pricing.productId.name %> </td>
+										<td><%= pricing.pricingType %></td>
+										<td><%= pricing.price %>  </td>
+										<td>
+											<a href="/products/pricing/delete/<%= pricing._id %>" class="btn btn-danger" ><i class="fa fa-trash"></i></a>
+										</td>
+									</tr> 
+								<% } %> 
+						
+							</tbody>
+							<tfoot>
+								<tr>
+									<th>Product Name</th>
+									<th>Type</th>
+									<th>Sale Price</th>
+									<th>Action</th>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<%- include('../partials/footer') %>

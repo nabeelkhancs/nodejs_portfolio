@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Location Transfer
+		</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Location Transfer</div>
+			</li>
+		</ol>
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-truck mr-1"></i>
+				Location Transfer
+			</div>
+			<div class="card-body">
+				<form action="/locations/transfer" method="POST">
+					<div class="row">
+						<div class="col-md-6">
+							<label for="fromLocationId">From Location: </label>
+							<%- dropdown(locations,'fromLocationId','Select Location','required') %>
+						</div>
+						<div class="col-md-6">
+							<label for="toLocationId">To Location: </label>
+							<%- dropdown(locations,'toLocationId','Select Location','required') %>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+						<div class="col-md-6">
+							<label for="product">Product:</label>
+							<%- dropdown(products,'productId','Select Product','required') %>
+						</div>
+						<div class="col-md-6">
+							<label for="quantity">Quantity:</label>
+							<input type="number" name="quantity" id="quantity" class="form-control"
+								placeholder="Enter Quantity to transfer" required>
+						</div>
+					</div>
+					<br>
+					<br>
+					<div>
+						<center><button type="submit" class="btn btn-success"><i class="fas fa-truck"></i> Transfer</button>
+						</center>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+
+<%- include('../partials/footer') %>

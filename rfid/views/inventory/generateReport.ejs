@@ -1,0 +1,205 @@
+<html>
+<head>
+    <style>
+    body {
+        font-family: sans-serif;
+        font-size: 10pt;
+    }
+
+    p {
+        margin: 0pt;
+    }
+
+    table.items {
+        border: 0.1mm solid #e7e7e7;
+    }
+
+    td {
+        vertical-align: top;
+    }
+
+    .items td {
+        border-left: 0.1mm solid #e7e7e7;
+        border-right: 0.1mm solid #e7e7e7;
+    }
+
+    table thead td {
+        text-align: center;
+        border: 0.1mm solid #e7e7e7;
+    }
+
+    .items td.blanktotal {
+        background-color: #EEEEEE;
+        border: 0.1mm solid #e7e7e7;
+        background-color: #FFFFFF;
+        border: 0mm none #e7e7e7;
+        border-top: 0.1mm solid #e7e7e7;
+        border-right: 0.1mm solid #e7e7e7;
+    }
+
+    .items td.totals {
+        text-align: right;
+        border: 0.1mm solid #e7e7e7;
+    }
+
+    .items td.cost {
+        text-align: "."center;
+    }
+    </style>
+</head>
+
+<body>
+		<% var printDate = new Date(); %> 
+    <table width="100%" style="font-family: sans-serif;" cellpadding="10">
+        <tr>
+            <td width="100%" style="padding: 0px; text-align: center;">
+              <h1>Laundry Management System</h1>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" style="text-align: center; font-size: 20px; font-weight: bold; padding: 0px;">
+              INVENTORY REPORT
+            </td>
+        </tr>
+        <tr>
+          <td height="10" style="font-size: 0px; line-height: 10px; height: 10px; padding: 0px;">&nbsp;</td>
+        </tr>
+    </table>
+    <table width="100%" style="font-family: sans-serif;" cellpadding="10">
+        <tr>
+            <td width="49%" style="border: 0.1mm solid #eee;">
+							<table>
+								<tr>
+									<td><b>Status: </b></td>
+									<td style="text-transform: capitalize;"><%= status %> </td>
+								</tr>
+								<tr>
+									<td><b>Print Date:</b></td>
+									<td><%= printDate.toDateString() %> </td>
+								</tr>
+								<tr>
+
+									<!-- <td><b>Shipped To:</b></td> -->
+								</tr> 
+							</table>
+						</td>
+            <td width="2%">&nbsp;</td>
+            <td width="49%" style="border: 0.1mm solid #eee;">
+							<table>
+								<tr>
+									<td><b>From Date: </b></td>
+									<td style="text-transform: capitalize;"><%= fromDate.toDateString() %> </td>
+								</tr>
+								<tr>
+									<td><b>To Date:</b></td>
+									<td><%= toDate.toDateString() %> </td>
+								</tr>
+							</table>
+						</td>
+           
+        </tr>
+    </table>
+    <br>
+    <table class="items" width="100%" style="font-size: 14px; border-collapse: collapse;" cellpadding="8">
+        <thead>
+            <tr>
+                <td width="20%" style="text-align: left;"><strong>#</strong></td>
+                <td width="20%" style="text-align: left;"><strong>RFID #</strong></td>
+                <td width="20%" style="text-align: left;"><strong>Stock #</strong></td>
+                <td width="20%" style="text-align: left;"><strong>Date</strong></td>
+								<% if(status == 'shipped') { %>
+									<td width="20%" style="text-align: left;"><strong>Shipped To:</strong></td>
+								<% } %> 
+            </tr>
+        </thead>
+        <tbody>
+            <!-- ITEMS HERE -->
+            
+            <tr>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+                <td style="padding: 0px 7px; line-height: 20px;">
+                    <br>
+                </td>
+            </tr>
+						<% var count = 1 %> 
+						<% for(let d of data) { %> 
+						<tr>
+							<% 
+								if(status == 'recieved'){
+									var date = d.recievedDate
+								} 
+								else if(status == 'washing'){
+									var date = d.washingDate
+								} 
+								else if(status == 'dying'){
+									var date = d.dyingDate
+								} 
+								else if(status == 'shipped'){
+									var date = d.shippedDate
+								} 
+							%> 
+							<td><%= count %> </td>
+							<td><%= d.rfid %> </td>
+							<td><%= d.stockId %> </td>
+							<td><%= date.toDateString() %> </td>
+							<% if(status  == 'shipped') { %>
+								<td><%= typeof(d.shippedTo) != 'undefined' ? d.shippedTo.name : "N/A" %> </td>
+							<% } %>  
+						</tr>
+						<% count++ %> 
+						<% } %> 
+        </tbody>
+    </table>
+    <br>
+   
+    <br>
+    <table width="100%" style="font-family: sans-serif; font-size: 14px;" >
+        <br>
+        <tr>
+            <td>
+                <table width="25%" align="left" style="font-family: sans-serif; font-size: 14px;" >
+                    <tr>
+                        <td style="padding: 0px; line-height: 20px;">
+                            <!-- <img src="img/protected.png" alt="protected" style="display: block; margin: auto;"> -->
+                        </td>
+                    </tr>
+                </table>
+                <table width="50%" align="left" style="font-family: sans-serif; font-size: 13px; text-align: center;" >
+                    <tr>
+                        <td style="padding: 0px; line-height: 20px;">
+                            <strong>Company Name</strong>
+                            <br>
+                            ABC AREA
+                            <br>
+                            Tel: +00 000 000 0000 | Email: info@companyname.com
+                            <br>
+                            Company Registered in Country Name. Company Reg. 12121212.
+                            <br>
+                            VAT Registration No. 021021021 | ATOL No. 1234
+                        </td>
+                    </tr>
+                </table>
+                <table width="25%" align="right" style="font-family: sans-serif; font-size: 14px;" >
+                    <tr>
+                        <td style="padding: 0px; line-height: 20px;">
+                            <!-- <img src="img/abtot.png" alt="abtot" style="display: block; margin: auto;"> -->
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <br>
+    </table>
+		<script type="text/javascript">
+			window.onload = function() { window.print(); }
+ </script>
+</body>
+</html>

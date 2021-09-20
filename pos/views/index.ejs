@@ -1,0 +1,253 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+<main>
+  <div class="container-fluid">
+    <h1 class="mt-4"><%= location%> Today's Stats  </h1>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Dashboard <%= location %> </li>
+    </ol>
+    <div class="row">
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-primary text-white mb-4">
+          <div class="card-body"> <i class="fas fa-money-check-alt fa-3x"></i>
+            <h3 style="display: inline; margin-left: 0.4em;">Total Sales:</h3>
+            <div>
+              <center>
+                <h3 style="display: inline;">
+                  <%= todaySales %>
+                </h3> PKR
+              </center>
+            </div>
+          </div>
+          <div class="card-footer d-flex align-items-center justify-content-between">
+            <a class="small text-white stretched-link" href="/sales">View Details</a>
+            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-warning text-white mb-4">
+          <div class="card-body"> <i class="fas fa-shopping-cart fa-3x"></i>
+            <h3 style="display: inline; margin-left: 0.4em;">Total Purchase:</h3>
+            <div>
+              <center>
+                <h3 style="display: inline;">
+                  <%= todayPurchases %>
+                </h3>PKR
+              </center>
+            </div>
+          </div>
+          <div class="card-footer d-flex align-items-center justify-content-between">
+            <a class="small text-white stretched-link" href="/purchases">View Details</a>
+            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-success text-white mb-4">
+          <div class="card-body"><i class="fas fa-plus fa-3x"></i>
+            <h3 style="display: inline; margin-left: 0.4em;">Total Expenses:</h3>
+            <div>
+              <center>
+                <h3 style="display: inline;">0 </h3>PKR
+              </center>
+            </div>
+          </div>
+          <div class="card-footer d-flex align-items-center justify-content-between">
+            <a class="small text-white stretched-link" href="#">View Details</a>
+            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-6">
+        <div class="card bg-danger text-white mb-4">
+          <div class="card-body"><i class="fas fa-dollar-sign fa-3x"></i>
+            <h3 style="display: inline; margin-left: 0.4em;">Profit / Loss:</h3>
+            <div>
+              <center>
+                <h3 style="display: inline;">0 </h3>PKR
+              </center>
+            </div>
+          </div>
+          <div class="card-footer d-flex align-items-center justify-content-between">
+            <a class="small text-white stretched-link" href="#">View Details</a>
+            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="fas fa-chart-area mr-1"></i>
+            Sales Last Week
+          </div>
+          <div class="card-body"><canvas id="myAreaChart2" width="100%" height="40"></canvas></div>
+        </div>
+      </div>
+      <div class="col-xl-6">
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="fas fa-chart-bar mr-1"></i>
+            Sales Last 6 Months
+          </div>
+          <div class="card-body"><canvas id="myBarChart2" width="100%" height="40"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>
+<script>
+  // =============================
+  var finalLastWeekSales = []; 
+  var lastWeekSales = <%- JSON.stringify(lastWeekSales) %>;
+
+  for(let i=0; i < lastWeekSales.length; i++){
+    let sum = lastWeekSales[i]
+    if(sum.length === 0){
+      finalLastWeekSales.push(0);
+    }
+    else{
+      finalLastWeekSales.push(sum[0].sum);
+    }
+  }
+
+  // console.log(finalLastWeekSales);
+
+  //========Area Chart============
+  const months = ['January', 'Febraury', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  var dates = [];
+  var date = new Date();
+
+  for (var i = 0; i < 7; i++) {
+    var tempDate = new Date();
+    tempDate.setDate(date.getDate() - i);
+    var str = (tempDate.getDate()) + " " + (months[Number(tempDate.getMonth())]);
+    dates.unshift(str);
+  }
+  // console.log(dates);
+  // Area Chart Example
+  var ctx = document.getElementById("myAreaChart2");
+  var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [{
+        label: "Sessions",
+        lineTension: 0.3,
+        backgroundColor: "rgba(2,117,216,0.2)",
+        borderColor: "rgba(2,117,216,1)",
+        pointRadius: 5,
+        pointBackgroundColor: "rgba(2,117,216,1)",
+        pointBorderColor: "rgba(255,255,255,0.8)",
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: "rgba(2,117,216,1)",
+        pointHitRadius: 50,
+        pointBorderWidth: 2,
+        data: finalLastWeekSales,
+      }],
+    },
+    options: {
+      scales: {
+        xAxes: [{
+          time: {
+            unit: 'date'
+          },
+          gridLines: {
+            display: false
+          },
+          ticks: {
+            maxTicksLimit: 7
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            min: 0,
+            maxTicksLimit: 5
+          },
+          gridLines: {
+            color: "rgba(0, 0, 0, .125)",
+          }
+        }],
+      },
+      legend: {
+        display: false
+      }
+    }
+  });
+
+
+  //===========Bar chart===========
+  var finalMonthlySales = [];
+  var monthlySales = <%- JSON.stringify(monthlySales) %>;
+
+  for(let i=0; i < monthlySales.length; i++){
+    let sum = monthlySales[i]
+    if(sum.length === 0){
+      finalMonthlySales.push(0);
+    }
+    else{
+      finalMonthlySales.push(sum[0].sum);
+    }
+  }
+
+  var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+  var today = new Date();
+  var d;
+  var month;
+  var lastmonths = [];
+  for(var i = 6; i > 0; i -= 1) {
+    d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+    month = monthNames[d.getMonth()+1];
+    lastmonths.push(month);
+  }
+  console.log(lastmonths);
+
+  // Bar Chart Example
+  var ctx = document.getElementById("myBarChart2");
+  var myLineChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: lastmonths,
+    datasets: [{
+      label: "Revenue",
+      backgroundColor: "rgba(2,117,216,1)",
+      borderColor: "rgba(2,117,216,1)",
+      data: finalMonthlySales,
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          display: true
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+
+</script>

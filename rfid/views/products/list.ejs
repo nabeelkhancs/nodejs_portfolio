@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include('../partials/commonhead') %> 
+</head>
+
+<body class="sb-nav-fixed">
+	<%- include ("../partials/header") %>
+		<div id="layoutSidenav">
+			<%- include ("../partials/sidebar") %>
+				<div id="layoutSidenav_content">
+
+					<main>
+						<div class="container-fluid">
+							<h1 class="mt-4">Products list</h1>
+							<ol class="breadcrumb mb-4">
+								<li class="breadcrumb-item active">
+									<div class="ml-auto"><a href="/">Home</a> > All Products</div>
+								</li>
+							</ol>
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-table mr-1"></i>
+									All Products Shown here
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+											<thead>
+												<tr>
+													<th>Category</th>
+													<th>RFID # </th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tfoot>
+												<tr>
+													<th>Category</th>
+													<th>RFID # </th>
+													<th>Action</th>
+												</tr>
+											</tfoot>
+											<tbody>
+												<% for(let product of products) { %>
+													<tr>
+														<td>
+															<%= product.categoryId.name %>
+														</td>
+														<td>
+															<%= product.name %>
+														</td>
+														<td>
+															<a href="/products/edit/<%= product._id %>" class="btn btn-info icon-btn"><i
+																	class="fa fa-edit"></i></a>
+															<a href="/products/delete/<%= product._id %>" class="btn btn-danger icon-btn"><i
+																	class="fa fa-trash"></i></a>
+														</td>
+													</tr>
+													<% } %>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</main>
+				</div>
+		</div>
+		<%- include ("../partials/commonscripts") %> 
+		<script>
+			$(document).ready(function() {
+					$('#dataTable2').DataTable( {
+							dom: 'Bfrtip',
+							buttons: [
+									'copy', 'csv', 'excel', 'pdf', 'print'
+							]
+					} );
+			} );
+		</script>
+</body>

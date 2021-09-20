@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include ("../partials/commonhead") %>
+</head>
+
+<body class="sb-nav-fixed">
+	<%- include ("../partials/header") %>
+		<div id="layoutSidenav">
+			<%- include ("../partials/sidebar") %>
+				<div id="layoutSidenav_content">
+					<main>
+						<div class="container-fluid">
+							<h1 class="mt-4">Add Product</h1>
+							<ol class="breadcrumb mb-4">
+								<li class="breadcrumb-item active">
+									<div class="ml-auto"><a href="/">Home</a> > Add Product</div>
+								</li>
+							</ol>
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-barcode mr-1"></i>
+									Add Product detail
+								</div>
+								<div class="card-body">
+									<form action="/products/add" method="POST" enctype="multipart/form-data">
+										<div class="row">
+											<div class="form-group col-md-6">
+												<label for="name">Product RFID #:</label>
+												<input type="text" class="form-control" id="name" name="name" aria-describedby="name"
+													placeholder="Enter Product RFID #" required>
+											</div>
+											<div class="form-group col-md-6">
+												<label for="productCategory">Select Category:</label>
+												<%- dropdown(categories,'categoryId','Select Category','required') %>
+											</div>
+										</div>
+										<div class="row">
+											<div class="form-group col-md-6">
+												<label for="description">Description:</label>
+												<textarea name="description" class="form-control"></textarea>
+											</div>	
+											<!-- <div class="form-group col-md-6">
+												<div class="custom-file ">
+													<input type="file" class="custom-file-input" id="customFile" name="image">
+													<label class="custom-file-label" for="customFile">Select Image</label>
+												</div>
+											</div> -->
+										</div>
+										<div class="row">
+											<div class="form-group col-md-12 text-right">
+												<button type="submit" name="add" class="btn btn-outline-success"> &nbsp;&nbsp;&nbsp; Add
+													&nbsp;&nbsp;&nbsp; </button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</main>
+				</div>
+		</div>
+		<%- include ("../partials/commonscripts") %>
+</body>
+
+</html>

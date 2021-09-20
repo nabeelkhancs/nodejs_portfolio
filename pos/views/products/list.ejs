@@ -1,0 +1,82 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Products list</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > All Products</div>
+			</li>
+		</ol>
+		<div class="card mb-4">
+			<div class="card-header">
+					<i class="fas fa-table mr-1"></i>
+					All Products Shown here
+			</div>
+			<div class="card-body"> 
+					<div class="table-responsive">
+							<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+									<thead>
+										<tr>
+											<th>Image</th>
+											<th>Name</th>
+											<th>Barcode</th>
+											<th>Category</th>
+											<th>Unit</th>
+											<% if(!currentUser.isAdmin) { %> 
+											<th>In Stock</th>
+											<% } %> 
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>Image</th>
+											<th>Name</th>
+											<th>Barcode</th>
+											<th>Category</th>
+											<th>Unit</th>
+											<% if(!currentUser.isAdmin) { %> 
+												<th>In Stock</th>
+												<% } %>
+											<th>Action</th>
+										</tr>
+									</tfoot>
+									<tbody>
+										<!-- <pre>
+											<%= //inventories %> 
+										</pre> -->
+										<% for(let inventory of inventories) { %>
+											<% 
+												if(typeof(inventory.productId.image) != "undefined") {
+													var image = inventory.productId.image;
+												} else {
+													var image = "no-image.png";
+												} 
+											%> 
+											<tr>
+												<td><img src="/images/products/<%= image %>" style="width: 50px;" /></td>
+												<td><%= inventory.productId.name %> </td>
+												<td><%= inventory.productId.barcode %> </td>
+												<td><%= inventory.productId.categoryId != null ? inventory.productId.categoryId.name : 'N/A' %> </td>
+												<td><%= inventory.productId.unitOfMeasure %> </td>
+												<% if(!currentUser.isAdmin) { %> 
+													<td><%= inventory.stock %> </td>
+												<% } %> 
+												<td>
+												<% if(currentUser.isAdmin) { %> 
+													<a href="/products/print/<%= inventory.productId._id %>" target="_blank" class="btn btn-secondary	 icon-btn"><i class="fa fa-print" ></i></a>
+												<% } %> 
+													<a href="/products/edit/<%= inventory.productId._id %>" class="btn btn-info icon-btn"><i class="fa fa-edit" ></i></a>
+														<a href="/products/delete/<%= inventory.productId._id %>" class="btn btn-danger icon-btn"><i class="fa fa-trash" ></i></a>
+												</td>
+											</tr>
+										<% } %>  
+									</tbody>
+							</table>
+					</div>
+			</div>
+	</div>
+	</div>
+</main>
+<%- include('../partials/footer') %>

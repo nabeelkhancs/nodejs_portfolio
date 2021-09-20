@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include ("../partials/commonhead") %>
+</head>
+
+<body class="sb-nav-fixed">
+<%- include ("../partials/header") %>
+	<div id="layoutSidenav">
+	<%- include ("../partials/sidebar") %>
+		<div id="layoutSidenav_content">
+
+			<main>
+				<div class="container-fluid">
+					<h1 class="mt-4">Stock Details</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">
+							<div class="ml-auto"><a href="/">Home</a> > Stock Details</div>
+						</li>
+					</ol>
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-layer-group mr-1"></i>
+							Stock Details
+						</div>
+						<div id="err_msg">
+							<div id="err_before"></div>
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Stock ID</th>
+										<th>Date</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% for(let stock of stocks) {%> 
+									<tr>
+										<td><%= stock.stockId %> </td>
+										<td><%= stock.date %> </td>
+										<td>
+											<a title="View Details of this Stock" href="/stockdetail/<%= stock.stockId %>" class="btn btn-info"><i class="fas fa-file"></i></a>
+										</td>
+									</tr>
+									<% } %> 
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	</div>
+</body>
+<%- include ("../partials/commonscripts") %>
+</body>   

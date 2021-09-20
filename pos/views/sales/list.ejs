@@ -1,0 +1,84 @@
+<%- include('../partials/header') %>
+	<%- include('../partials/sidebar') %>
+		<main>
+			<div class="container-fluid">
+				<h1 class="mt-4">Sales List</h1>
+				<ol class="breadcrumb mb-4">
+					<li class="breadcrumb-item active">
+						<div class="ml-auto"><a href="/">Home</a> > All Sales</div>
+					</li>
+				</ol>
+				<div class="card mb-4">
+					<div class="card-header">
+						<i class="fas fa-table mr-1"></i>
+						All Sales Shown here
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Customer</th>
+										<th>Date</th>
+										<th>Reference</th>
+										<% if(currentUser.isAdmin) { %>
+											<th>Location</th>
+										<% } %>  
+										<th>Payment Type</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>#</th>
+										<th>Customer</th>
+										<th>Date</th>
+										<th>Reference</th>
+										<% if(currentUser.isAdmin) { %>
+											<th>Location</th>
+										<% } %>  
+										<th>Payment Type</th>
+										<th>Action</th>
+									</tr>
+								</tfoot>
+								<tbody>
+									<% var count = 1 %> 
+									<% for(let sale of sales) { %>
+									<% 
+									if(typeof(sale.customerId) != "undefined")
+									  var	customer = sale.customerId.name;
+									else
+										var customer = "Walk-in Customer";
+									if(typeof(sale.referenceNote) == "string" && sale.referenceNote.length != 0)
+										var ref = sale.referenceNote;
+									else
+										var ref = "N/A";
+									%> 
+										<tr>
+											<td><%= count %> </td>
+											<td><%= customer %> </td>
+											<td><%= sale.createdAt %> </td>
+											<td><%= ref %> </td>
+											<% if(currentUser.isAdmin) { %>
+												<td><%= sale.locationId.name %> </td>
+											<% } %> 
+											<td><%= sale.paymentType %> </td>
+											<td>
+												<a href="/sales/printslip/<%= sale._id %>" target="_blank" class="btn btn-secondary"><i class="fa fa-print"></i></a>
+												<a class="btn btn-danger" href="/sales/delete/<%= sale._id %>"><i class="fa fa-trash"></i></a>
+
+											</td>
+										</tr>
+									<% count++ %> 
+									<% } %>  
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<%- include('../partials/footer') %>
+
+		

@@ -1,0 +1,96 @@
+<div id="layoutSidenav">
+	<div id="layoutSidenav_nav">
+		<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+			<div class="sb-sidenav-menu">
+				<div class="nav">
+					<div class="sb-sidenav-menu-heading">Core</div>
+						
+					<% if(!currentUser.isAdmin) { %>
+						<a class="nav-link" href="/">
+							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+							Dashboard
+						</a>
+					<% } else { %>
+						<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDashboard"
+							aria-expanded="false" aria-controls="collapseDashboard">
+							<div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+							Dashboards 
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse " id="collapseDashboard" aria-labelledby="headingOne"
+							data-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<% for(let location of locations) { %> 
+									<a class="nav-link " href="/dashboard/<%= location._id %>"><%= location.name %> </a>
+								<% } %> 
+							</nav>
+						</div>
+					<% } %> 
+					<a class="nav-link" href="/pos">
+						<div class="sb-nav-link-icon"><i class="fas fa-th"></i></div>
+						POS
+					</a>  
+					<% for(let parent of parentSidebar) { %> 
+						 
+						<% 
+							if(parent.name == 'Products'){
+								var icon = 'fa-barcode';
+							} else if(parent.name == 'Purchases'){
+								var icon = 'fa-shopping-cart';
+							} else if(parent.name == 'Sales'){
+								var icon = 'fa-money-check';
+							} else if(parent.name == 'Locations'){
+								var icon = 'fa-map-marker';
+							} else if(parent.name == 'Settings'){
+								var icon = 'fa-cog';
+							} 
+						%> 
+						<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse<%= parent.name %>"
+							aria-expanded="false" aria-controls="collapse<%= parent.name %>">
+							<div class="sb-nav-link-icon"><i class="fas <%= icon %> "></i></div>
+							<%= parent.name %> 
+							<div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+						</a>
+						<div class="collapse " id="collapse<%= parent.name %>" aria-labelledby="headingOne"
+							data-parent="#sidenavAccordion">
+							<nav class="sb-sidenav-menu-nested nav">
+								<% for(let child of parent.child) { %> 
+									<a class="nav-link " href="<%= child.route %> "><%= child.name %> </a>
+								<% } %> 
+							</nav>
+						</div>
+					<% } %> 
+					<!-- <div class="sb-sidenav-menu-heading">Interface</div> -->
+					 <!-- Products Links  -->
+					<% 
+					if( typeof(pageName) !="undefined" && (pageName=='productList' || pageName=='addProducts' || pageName=='productCategories' || pageName == 'printLabels' || pageName == 'pricing')) { 
+						var showClass='show' ; 
+						var collapsedClass='' ;
+						if(pageName=='productList' ){ 
+							var productsList='active' 
+						} 
+						if(pageName=='addProducts' ){ 
+							var	addProducts='active' 
+						} 
+						if(pageName=='productCategories' ){ 
+							var productCategories='active' 
+						} 
+						if(pageName=='printLabels' ){ 
+							var printLabels='active' 
+						} 
+						if(pageName=='pricing' ){ 
+							var pricing='active' 
+						} 
+					}else{ 
+						var	showClass='' ; 
+						var collapsedClass='collapsed' ; 
+					} 
+					%>
+					
+				</div>
+			</div>
+			<div class="sb-sidenav-footer">
+				
+		</nav>
+	</div>
+	<div id="layoutSidenav_content">

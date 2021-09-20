@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Products Labels</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Print Labels</div>
+			</li>
+		</ol>
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table mr-1"></i>
+				Select Product for label printing
+			</div>
+			<div class="card-body">
+				<form action="/products/generateBarcodes" method="POST">
+					<div class="row">
+						<div class="col-md-3">
+							<label for="width">Select Product:</label>
+							<%- dropdown(products, 'productId', 'Select Product', 'required'); %> 
+						</div>
+						<div class="col-md-3">
+							<label for="quantity">Quantity:</label>
+								<input type="number" class="form-control" id="quantity" name="quantity" aria-describedby="barcode" placeholder="" required>
+						</div>
+						<div class="col-md-3">
+							<label for="width">Width (inch):</label>
+								<input type="number" class="form-control" id="width" name="width" aria-describedby="barcode" placeholder="">
+						</div>
+						<div class="col-md-3">
+							<label for="height">Height (inch):</label>
+								<input type="number" class="form-control" id="height" name="height" aria-describedby="barcode" placeholder="">
+						</div>
+					</div>
+					<br>
+					<center>
+						<button type="submit" class="btn btn-success"><i class="fa fa-print"></i>  Generate</button>
+					</center>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+<%- include('../partials/footer') %>

@@ -1,0 +1,86 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Suppliers</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Suppliers</div>
+			</li>
+		</ol>
+		<%- include('../partials/messages') %> 
+		<div class="row">
+			<div class="card col-md-4 mb-4">
+				<div class="card-header">
+					<i class="fas fa-user mr-1"></i>
+					Add Supplier detail
+				</div>
+				<div class="card-body">
+						<form action="/suppliers" method="POST">
+						<div class="form-group">
+							<label for="name">Company Name:</label>
+							<input type="text" class="form-control" id="name" name="name" aria-describedby="name" placeholder="Enter Company Name" required>
+						</div>
+						<div class="form-group">
+							<label for="contactName">Contact Person Name:</label>
+							<input type="text" class="form-control" id="contactName" name="contactName" aria-describedby="contactName" placeholder="Enter Contact Person Name">
+						</div>
+						<div class="form-group">
+							<label for="contactNumber">Contact Number:</label>
+							<input type="text" class="form-control" id="contactNumber" name="contactNumber" aria-describedby="contactNumber" placeholder="Enter Contact Number">
+						</div>
+						<div class="form-group">
+							<label for="email">Email:</label>
+							<input type="email" class="form-control" id="email" name="email" aria-describedby="contact" placeholder="Enter Contact Number">
+						</div>
+						<div class="form-group">
+							<label for="address">Address:</label>
+							<textarea name="address" placeholder="Enter Address" class="form-control"></textarea>
+						</div>
+						<button type="submit" name="add" class="btn btn-outline-success"> &nbsp;&nbsp;&nbsp; Add &nbsp;&nbsp;&nbsp;  </button>
+					</form>
+				</div>
+			</div>
+			<!-- <div class="col-md-1"></div> -->
+			<div class="card col-md-7 mb-4" style="margin-left: 2em;">
+				<div class="card-header">
+					<i class="fas fa-list mr-1"></i>
+					Suppliers List
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+								<thead>
+										<tr>
+												<th>Company Name</th>
+												<th>Contact Person</th>
+												<th>Contact No.</th>
+												<th>Email</th>
+												<th>Address</th>
+												<th>Action</th>
+										</tr>
+								</thead>
+								<tbody>
+									<% for(let supplier of suppliers) { %> 
+									<tr>
+										<td><%= supplier.name %> </td>
+										<td><%= supplier.contactName %> </td>
+										<td><%= supplier.contactNumber %> </td>
+										<td><%= supplier.email %> </td>
+										<td><%= supplier.address %> </td>
+										<td>
+											<a href="" class="btn btn-info icon-btn"><i class="fa fa-edit" ></i></a>
+											<a href="/suppliers/delete/<%= supplier._id %> " class="btn btn-danger icon-btn"><i class="fa fa-trash" ></i></a>
+										</td>
+									</tr>
+									<% } %> 
+								</tbody>
+						</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+<%- include('../partials/footer') %>

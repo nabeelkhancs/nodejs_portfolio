@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include ("../partials/commonhead") %>
+</head>
+
+<body class="sb-nav-fixed">
+	<%- include ("../partials/header") %>
+		<div id="layoutSidenav">
+			<%- include ("../partials/sidebar") %>
+				<div id="layoutSidenav_content">
+
+					<main>
+						<div class="container-fluid">
+							<h1 class="mt-4">Customers list</h1>
+							<ol class="breadcrumb mb-4">
+								<li class="breadcrumb-item active">
+									<div class="ml-auto"><a href="/">Home</a> > All Customers</div>
+								</li>
+							</ol>
+              <%- include("../partials/messages") %>
+
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-table mr-1"></i>
+									All Customers Shown here
+								</div>
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>ID # </th>
+													<th>Phone</th>
+													<th>Address</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tfoot>
+												<tr>
+													<th>Name</th>
+													<th>ID # </th>
+													<th>Phone</th>
+													<th>Address</th>
+													<th>Action</th>
+												</tr>
+											</tfoot>
+											<tbody>
+												<% for(let customer of customers) { %>
+													<tr>
+														<td>
+															<%= customer.name %>
+														</td>
+														<td>
+															<%= customer.idNumber %>
+														</td>
+														<td>
+															<%= customer.phone %> 
+														</td>
+														<td>
+															<%= customer.address %> 
+														</td>
+														<td>
+															<a href="/customers/edit/<%= customer._id %>" class="btn btn-info icon-btn"><i
+																	class="fa fa-edit"></i></a>
+															<a href="/customers/delete/<%= customer._id %>" class="btn btn-danger icon-btn"><i
+																	class="fa fa-trash"></i></a>
+														</td>
+													</tr>
+													<% } %>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</main>
+				</div>
+		</div>
+		<%- include ("../partials/commonscripts") %>
+			<script>
+				$('#dataTable2').DataTable( {
+							dom: 'Bfrtip',
+							buttons: [
+									'copy', 'csv', 'excel', 'pdf', 'print'
+							]
+					} );
+			</script>
+</body>

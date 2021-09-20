@@ -1,0 +1,58 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Edit <%= user.fullName %> Details</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Edit User</div>
+			</li>
+		</ol>
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-user mr-1"></i>
+				Edit User details
+			</div>
+
+			<%- include('../partials/messages') %>
+			<div class="card-body">
+				<form action="/admin/users?_method=PUT" method="POST">
+					<input type="hidden" name="id" value="<%= user._id %>">
+					<div class="form-group">
+						<label for="fullname">Fullname</label>
+						<input type="text" id="fullname" name="fullName" class="form-control" placeholder="Enter Fullname"
+							required value="<%= user.fullName %>" />
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="email" id="email" name="email" class="form-control" placeholder="Enter Email" required
+							value="<%= user.email %>" />
+					</div>
+					<div class="form-group">
+						<label for="role">Role</label>
+						<%- dropdown(permissions,'roleId','Select User Role','required',user.roleId) %>
+					</div>
+					<div class="form-group">
+						<label for="location">Location</label>
+						<%- dropdown(locations,'locationId','Select User Location','required', user.locationId) %>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" id="password" name="password" class="form-control"
+							placeholder="Enter Password" />
+					</div>
+					<div class="form-group">
+						<label for="confirm">Confirm Password</label>
+						<input type="password" id="confirm" name="confirm" class="form-control"
+							placeholder="Confirm Password" />
+					</div>
+					<div class="d-flex justify-content-end">
+						<button type="submit" class="btn btn-primary">Update User</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+
+<%- include('../partials/footer') %>

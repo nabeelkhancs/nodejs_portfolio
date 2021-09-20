@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<%- include ("../partials/commonhead") %>
+</head>
+
+<body class="sb-nav-fixed">
+<%- include ("../partials/header") %>
+	<div id="layoutSidenav">
+	<%- include ("../partials/sidebar") %>
+		<div id="layoutSidenav_content">
+
+			<main>
+				<div class="container-fluid">
+					<h1 class="mt-4">Inventory Status</h1>
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item active">
+							<div class="ml-auto"><a href="/">Home</a> > Inventory Status</div>
+						</li>
+					</ol>
+					<div class="card mb-4">
+						<div class="card-header">
+							<i class="fas fa-barcode mr-1"></i>
+							Product detail
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered" id="dataTable2">
+								<thead>
+									<tr>
+										<th>Stock ID</th>
+										<th>RFID #</th>
+										<th>Date</th>
+										<th>Shipped To</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% for(let inv of inventory) { %> 
+									
+									<tr>
+										<td><%= inv.stockId %> </td>
+										<td><%= inv.rfid %> </td>
+										<td><%= inv.recievedDate.toDateString() %> </td>
+										<td><%= typeof(inv.shippedTo) != "undefined" ? inv.shippedTo.name : "N/A" %> </td>
+										<td><%= inv.status %> </td>
+									</tr>			
+									<% } %> 						
+								</tbody>
+							</table>
+						</div>
+					</div>	
+				</main>
+			</div>
+	</div>
+	<%- include ("../partials/commonscripts") %>
+	<script>
+			$('#dataTable2').DataTable( {
+							dom: 'Bfrtip',
+							buttons: [
+									'copy', 'csv', 'excel', 'pdf', 'print'
+							]
+					} );
+	</script>
+</body>   

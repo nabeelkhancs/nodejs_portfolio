@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+<%- include('../partials/sidebar') %>
+<main>
+	<div class="container-fluid">
+		<h1 class="mt-4">Locations</h1>
+		<ol class="breadcrumb mb-4">
+			<li class="breadcrumb-item active">
+				<div class="ml-auto"><a href="/">Home</a> > Locations</div>
+			</li>
+		</ol>
+		<%- include('../partials/messages') %>
+
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table mr-1"></i>
+				All Locations
+			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Name</th>
+								<th>Address</th>
+								<th>Type</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% let count = 1; %> 
+							<% for(let location of locations) { %>
+								<tr>
+									<td><%= count %> </td>
+									<td><%= location.name %> </td>
+									<td><%= typeof(location.address) != "undefined" ? location.address : "N/A" %></td>
+									<td style="text-transform: capitalize;"><%= location.locationType %> </td>
+									<td>
+										<a href="/locations/edit/<%= location._id %>" class="btn btn-secondary"><i class="fas fa-edit"></i></a>
+										<% if(location.name !=  "Default") { %> 
+										<a href="/locations/delete/<%= location._id %>" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+										<% } %> 
+									</td>
+								</tr>
+								<% count++ %> 
+							<% } %>  
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<%- include('../partials/footer') %>

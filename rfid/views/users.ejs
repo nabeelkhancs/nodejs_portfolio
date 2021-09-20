@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include ("partials/commonhead") %>
+</head>
+
+<body class="sb-nav-fixed">
+  <%- include ("partials/header") %>
+    <div id="layoutSidenav">
+      <%- include ("partials/sidebar") %>
+        <div id="layoutSidenav_content">
+          <main>
+            <div class="container-fluid">
+              <h1 class="mt-4">Users</h1>
+              <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">Dashboard > Users</li>
+              </ol>
+              <div class="d-flex justify-content-between mb-4 ">
+                <button type="button" class="btn btn-primary mt-auto" data-toggle="modal" data-target="#addModal">Add User</button>
+              </div>
+
+              <%- include("partials/messages") %>
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <i class="fas fa-table mr-1"></i>
+                    Users List
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                          <tr>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Roles</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for(let user of locals.users) {%>
+                            <tr>
+                              <td>
+                                <%= user.fullName %>
+                              </td>
+                              <td>
+                                <%= user.email %>
+                              </td>
+                              <td>
+                                <%= user.role %> 
+                              </td>
+                              <td>
+                                <div class="d-flex">
+                                  <a class="btn btn-secondary icon-btn mr-1" href="/users/edit/<%= user._id %>"><i
+                                      class="fas fa-edit"></i></a>
+                                  <a class="btn btn-danger btn-delete icon-btn"
+                                    href="/users/delete/<%= user._id %>?_method=DELETE"><i
+                                      class="fas fa-trash-alt"></i></a>
+                                </div>
+                              </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal fade" id="addModal" role="dialog" tabindex="-1" aria-labelledby="Add User"
+                  aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">Add User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="/users" method="POST">
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" id="fullname" name="fullName" class="form-control"
+                              placeholder="Enter Full Name" required />
+                          </div>
+                          <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email"
+                              required />
+                          </div>
+                          <div class="form-group">
+                            <label for="role">Role</label>
+                            <select class="form-control" name="role" required>
+                              <option value="">Select Role</option>
+                              <option value="admin">Admin</option>
+                              <option value="subadmin">Analyst</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                              placeholder="Enter Password" required />
+                          </div>
+                          <div class="form-group">
+                            <label for="confirm">Confirm Password</label>
+                            <input type="password" id="confirm" name="confirm" class="form-control"
+                              placeholder="Confirm Password" required />
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                          <button type="submit" class="btn btn-primary">Save User</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </main>
+        </div>
+    </div>
+    <%- include ("partials/commonscripts") %>
+      <script>
+        $('.btn-delete').click(function (e) {
+          e.preventDefault();
+          const url = $(this).attr('href');
+          swal
+            .fire({
+              title: 'Are you sure?',
+              text: 'You wont be able to recover this User!',
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Yes, delete User!',
+            })
+            .then(function (result) {
+              if (result.value) {
+                window.location.href = url;
+              }
+            });
+        });
+      </script>
+</body>
+
+</html>
